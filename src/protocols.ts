@@ -44,3 +44,8 @@ export type RequestError = {
   name: string;
   message: string;
 };
+
+import { Ticket, TicketType } from "@prisma/client";
+
+export type CreateTicketType = Omit<TicketType, "id">
+export type createTicket = Omit<Ticket, "id">
