@@ -5,8 +5,8 @@ import ticketsController from "../controllers/tickets-controller";
 const ticketsRouter = Router();
 
 ticketsRouter
-.get("/tickets/types", authenticateToken, ticketsController.getTicketsTypes)
-.get("/tickets", authenticateToken, ticketsController.getTicketsUser)
-.post("/tickets", authenticateToken, ticketsController.createTicket)
+.get("/types", authenticateToken, ticketsController.getTicketsTypes)
+.get("/", authenticateToken, ticketsController.getTicketsUser)
+.post("/", authenticateToken, ticketsController.createTicket)
 
 export { ticketsRouter };

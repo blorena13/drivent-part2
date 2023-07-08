@@ -6,7 +6,7 @@ export async function getTicketsTypes() {
   return await ticketRepository.getByTypes();
 }
 
-export async function getTicktesUser(id: number) {
+export async function getTicketsUser(id: number) {
   const existsUser = await userRepository.findById(id);
   if (!existsUser) throw notFoundError();
 
@@ -27,7 +27,7 @@ export async function createTicket(ticketTypeId: number, enrollmentId: number) {
 
 const ticketService = {
   getTicketsTypes,
-  getTicktesUser,
+  getTicketsUser,
   createTicket,
 };
 

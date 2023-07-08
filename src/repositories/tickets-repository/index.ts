@@ -2,7 +2,7 @@ import { prisma } from '@/config';
 import { TicketType, Ticket } from '@prisma/client';
 
 async function getByTypes(){
-    return prisma.ticketType.findMany();
+    return await prisma.ticketType.findMany();
 }
 
 async function getTicketsUser(id: number){

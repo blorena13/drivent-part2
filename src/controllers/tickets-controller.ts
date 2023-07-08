@@ -4,14 +4,14 @@ import ticketService from "../services/ticket-service";
 
 async function getTicketsTypes(req: Request, res: Response){
     const tickets =  await ticketService.getTicketsTypes();
-    res.status(200).send(tickets);
+    res.status(httpStatus.OK).send(tickets);
 }
 
 async function getTicketsUser(req: Request, res: Response){
     const id = parseInt(req.params.id);
 
-    const ticketsUser = await ticketService.getTicktesUser(id);
-    res.status(200).send(ticketsUser);
+    const ticketsUser = await ticketService.getTicketsUser(id);
+    res.status(httpStatus.OK).send(ticketsUser);
 }
 
 async function createTicket(req: Request, res: Response){
