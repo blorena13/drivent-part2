@@ -20,7 +20,6 @@ async function createTicket(req: Request, res: Response){
     
     const newTicket = await ticketService.createTicket(ticketTypeId, id);
     res.status(httpStatus.CREATED).send(newTicket);
-
 }
 
 const ticketsController = {
