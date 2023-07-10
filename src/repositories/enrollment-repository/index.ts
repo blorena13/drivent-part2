@@ -18,6 +18,20 @@ async function findUser(userId: number){
   });
 }
 
+async function checkTicketOwners(ticketId: number, userId: number){
+  const enrollment = await prisma.enrollment.findFirst({
+    where: {
+      userId,
+      Ticket: {
+        some: {
+          id: ticketId
+        }
+      }
+    }
+  })
+  return !!enrollment;
+}
+
 async function upsert(
   userId: number,
   createdEnrollment: CreateEnrollmentParams,
@@ -38,7 +52,8 @@ export type UpdateEnrollmentParams = Omit<CreateEnrollmentParams, 'userId'>;
 const enrollmentRepository = {
   findWithAddressByUserId,
   upsert,
-  findUser
+  findUser,
+  checkTicketOwners
 };
 
 export default enrollmentRepository;

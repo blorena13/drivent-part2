@@ -1,10 +1,11 @@
-import { notFoundError, requestError } from '../../errors';
+import { notFoundError, requestError, unauthorizedError } from '../../errors';
 import { badRequestError } from '../../errors/bad-request-error';
 import { CardInfo } from '../../protocols';
+import enrollmentRepository from '../../repositories/enrollment-repository';
 import paymentRepository from '../../repositories/payment-repository';
 import ticketRepository from '../../repositories/tickets-repository';
 
-async function getPayment(id: number) {
+async function getPayment(id: number, userId: number) {
   if (!id) {
     throw badRequestError();
   }
@@ -14,9 +15,17 @@ async function getPayment(id: number) {
     throw notFoundError();
   }
 
-  return await paymentRepository.getPayment(id);
+  const isTicketOwnerByUser =  await enrollmentRepository.checkTicketOwners(id, userId);
+  if(!isTicketOwnerByUser){
+    throw unauthorizedError();
+  }
 
+  const payment = await paymentRepository.getPayment(id);
+  if(!payment){
+    throw notFoundError();
+  }
 
+  return payment;
 }
 
 async function createPayment(ticketId: number, cardData: CardInfo){
