@@ -7,14 +7,19 @@ async function getTicketsTypes(req: Request, res: Response){
     res.status(httpStatus.OK).send(tickets);
 }
 
-async function getTicketsUser(req: Request, res: Response){
-    const id = parseInt(req.params.id);
+async function getTicketsUser(req: Request , res: Response){
+    const id = res.locals.userId;
 
-    const ticketsUser = await ticketService.getTicketsUser(id);
+    const ticketsUser = await ticketService.getTicketsUser(Number(id));
     res.status(httpStatus.OK).send(ticketsUser);
 }
 
 async function createTicket(req: Request, res: Response){
+    const { ticketTypeId } = req.body;
+    const id = res.locals.userId;
+
+    const newTicket = await ticketService.createTicket(ticketTypeId, id);
+    res.status(httpStatus.CREATED).send(newTicket);
 
 }
 
