@@ -15,9 +15,9 @@ async function getTicketsUser(req: Request , res: Response){
 }
 
 async function createTicket(req: Request, res: Response){
-    const { ticketTypeId } = req.body;
     const id = res.locals.userId;
-
+    const { ticketTypeId } = req.body;
+    
     const newTicket = await ticketService.createTicket(ticketTypeId, id);
     res.status(httpStatus.CREATED).send(newTicket);
 

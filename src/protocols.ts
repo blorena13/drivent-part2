@@ -45,6 +45,14 @@ export type RequestError = {
   message: string;
 };
 
+export type CardInfo = {
+  issuer: string;
+  number: number;
+  name: string;
+  expirationDate: Date;
+  cvv: number;
+}
+
 import { Ticket, TicketType } from "@prisma/client";
 
 export type CreateTicketType = Omit<TicketType, "id">

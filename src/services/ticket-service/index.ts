@@ -1,4 +1,6 @@
-import { notFoundError, requestError } from '../../errors';
+import { notFoundError } from '../../errors';
+import { badRequestError } from '../../errors/bad-request-error';
+import enrollmentRepository from '../../repositories/enrollment-repository';
 import ticketRepository from '../../repositories/tickets-repository';
 import userRepository from '../../repositories/user-repository';
 
@@ -8,7 +10,9 @@ export async function getTicketsTypes() {
 
 export async function getTicketsUser(id: number) {
   const existsUser = await userRepository.findById(id);
-  if (!existsUser) throw notFoundError();
+  if (!existsUser) {
+    throw notFoundError();
+  }
 
   const ticketsUser = await ticketRepository.getTicketsUser(id);
   if (!ticketsUser) {
@@ -20,8 +24,14 @@ export async function getTicketsUser(id: number) {
 
 export async function createTicket(ticketTypeId: number, enrollmentId: number) {
   if (!ticketTypeId) {
-    throw requestError(400, 'falta ticketType na requisição');
+    throw badRequestError();
   }
+
+  const existsUser = await enrollmentRepository.findUser(enrollmentId);
+  if(!existsUser){
+    throw notFoundError();
+  }
+
   return await ticketRepository.createTicket(ticketTypeId, enrollmentId);
 }
 

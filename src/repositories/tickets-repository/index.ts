@@ -5,6 +5,12 @@ async function getByTypes(){
     return await prisma.ticketType.findMany();
 }
 
+async function getTicketsById(id: number){
+    return await prisma.ticket.findUnique({
+        where: {id: id}
+    });
+}
+
 async function getTicketsUser(id: number){
     const userTicket = await prisma.ticket.findFirst({
         where:{
@@ -37,7 +43,15 @@ async function getTicketsUser(id: number){
 
 }
 
+
 async function createTicket(ticketTypeId: number, enrollmentId: number){
+
+    const existsUser = await prisma.enrollment.findMany({
+        where: {
+            userId: enrollmentId
+        }
+    });
+    if(existsUser.length === 0) return 
 
         const createdTicket = await prisma.ticket.create({
             data: {
@@ -73,7 +87,8 @@ async function createTicket(ticketTypeId: number, enrollmentId: number){
 const ticketRepository = {
     getByTypes,
     getTicketsUser,
-    createTicket
+    createTicket,
+    getTicketsById
 }
 
 export default ticketRepository;
